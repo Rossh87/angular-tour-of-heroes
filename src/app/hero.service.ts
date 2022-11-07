@@ -19,11 +19,19 @@ const mockHeroes: Hero[] = [
   providedIn: 'root',
 })
 export class HeroService {
+  heroes = mockHeroes;
+
   constructor(private msgService: MessageService) {}
 
   getHeroes() {
-    const hs = of(mockHeroes);
+    const hs = of(this.heroes);
     this.msgService.add('HeroService: fetched heroes');
     return hs;
+  }
+
+  update(id: number, newName: string) {
+    this.heroes = this.heroes.map((h) =>
+      h.id === id ? { ...h, name: newName } : h
+    );
   }
 }
